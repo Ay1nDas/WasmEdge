@@ -1379,6 +1379,12 @@ Expect<void> FormChecker::checkInstr(const AST::Instruction &Instr) {
   case OpCode::I64__trunc_sat_f64_u:
     return StackTrans({ValType(TypeCode::F64)}, {ValType(TypeCode::I64)});
 
+  // Wide Arithmetic Instructions.
+  case OpCode::I64__add128:
+  return StackTrans({ValType(TypeCode::I64), ValType(TypeCode::I64), 
+                     ValType(TypeCode::I64), ValType(TypeCode::I64)},
+                    {ValType(TypeCode::I64), ValType(TypeCode::I64)});
+
   // Binary Numeric Instructions.
   case OpCode::I32__eq:
   case OpCode::I32__ne:

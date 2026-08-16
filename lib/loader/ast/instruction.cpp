@@ -664,6 +664,9 @@ Expect<void> Loader::loadInstruction(AST::Instruction &Instr) {
   case OpCode::I64__trunc_sat_f64_s:
   case OpCode::I64__trunc_sat_f64_u:
 
+  // Wide Arithmetic Instructions.
+  case OpCode::I64__add128:
+
   // Binary Numeric Instructions.
   case OpCode::I32__eq:
   case OpCode::I32__ne:

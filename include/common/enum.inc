@@ -395,6 +395,9 @@ OFC(I64__trunc_sat_f32_u, "i64.trunc_sat_f32_u", 0xFC, 5)
 OFC(I64__trunc_sat_f64_s, "i64.trunc_sat_f64_s", 0xFC, 6)
 OFC(I64__trunc_sat_f64_u, "i64.trunc_sat_f64_u", 0xFC, 7)
 
+// 0xFC prefix - Wide Arithmetic Instructions
+OFC(I64__add128, "i64.add128", 0xFC, 19)
+
 // 0xFC prefix - Memory Instructions (part 2)
 OFC(Memory__init, "memory.init", 0xFC, 8)
 OFC(Data__drop, "data.drop", 0xFC, 9)
@@ -814,6 +817,8 @@ P(ExceptionHandling, "Exception Handling")
 P(Memory64, "Memory64")
 // Phase 4 proposals
 P(Threads, "Threads")
+// Phase 3 proposals
+P(WideArithmetic, "Wide Arithmetic")
 // Phase 1 proposals
 P(Component, "Component Model")
 #undef P

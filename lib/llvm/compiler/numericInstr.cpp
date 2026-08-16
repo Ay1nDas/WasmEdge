@@ -688,6 +688,24 @@ FunctionCompiler::compileNumericOp(const AST::Instruction &Instr) noexcept {
     compileUnsignedTruncSat(Context.Int64Ty);
     break;
 
+  // Wide Arithmetic Instructions
+  case OpCode::I64__add128: {
+    LLVM::Value RhsHi = stackPop();
+    LLVM::Value RhsLo = stackPop();
+    LLVM::Value LhsHi = stackPop();
+    LLVM::Value LhsLo = stackPop();
+
+    LLVM::Value ResLo = Builder.createAdd(LhsLo, RhsLo);
+    LLVM::Value Carry = Builder.createICmpULT(ResLo, LhsLo);
+    LLVM::Value Carry64 = Builder.createZExt(Carry, LhsLo.getType());
+    LLVM::Value ResHiNoCarry = Builder.createAdd(LhsHi, RhsHi);
+    LLVM::Value ResHi = Builder.createAdd(ResHiNoCarry, Carry64);
+
+    stackPush(ResLo);
+    stackPush(ResHi);
+    break;
+  }
+
     // SIMD Memory Instructions
   default:
     assumingUnreachable();

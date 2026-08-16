@@ -851,6 +851,22 @@ Expect<void> Executor::execute(Runtime::StackManager &StackMgr,
     case OpCode::I64__trunc_sat_f64_u:
       return runTruncateSatOp<double, uint64_t>(StackMgr.getTop());
 
+    // Wide Arithmetic Instructions.
+    case OpCode::I64__add128: {
+      const uint64_t RhsHi = StackMgr.pop().get<uint64_t>();
+      const uint64_t RhsLo = StackMgr.pop().get<uint64_t>();
+      const uint64_t LhsHi = StackMgr.pop().get<uint64_t>();
+      const uint64_t LhsLo = StackMgr.pop().get<uint64_t>();
+
+      const uint64_t ResLo = LhsLo + RhsLo;
+      const uint64_t ResHi = LhsHi + RhsHi + ((ResLo < LhsLo) ? 1 : 0);
+
+      StackMgr.push(ValVariant(ResLo));
+      StackMgr.push(ValVariant(ResHi));
+
+      return {};
+    }
+
     // SIMD Memory Instructions
     case OpCode::V128__load:
       return runLoadOp<uint128_t>(
